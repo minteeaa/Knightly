@@ -1,5 +1,5 @@
 <h1 align="center">Knightly</p>
-<h2 align="center">Discord custom live bot for a server.</h2>
+<h3 align="center">Discord custom live bot for a server.</h2>
 <p align="center">JS Standard used.</p>
 
 ***
