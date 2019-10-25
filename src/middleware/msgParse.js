@@ -1,5 +1,6 @@
 module.exports = {
   priority: 2,
+  /* eslint-disable */
   process: container => {
     const { client, msg, commands } = container
     const isPrivate = container.isPrivate = !msg.channel.guild
@@ -7,7 +8,7 @@ module.exports = {
     const db = require('quick.db')
     let pre = db.fetch(`${msg.channel.guild.id}.settings.prefix`)
     let prefix
-    if (!pre) prefix = '-!'
+    if (!pre) prefix = '!kn '
     else prefix = pre
     if (!msg.content.startsWith(prefix)) return Promise.resolve()
     const rawArgs = msg.content.substring(prefix.length).split(' ')

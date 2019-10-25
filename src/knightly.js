@@ -71,7 +71,21 @@ knightly.on('ready', () => {
     logger.info(chalk.yellow.bold(`Status changed: '${type} ${cstat.name}'`))
   }
 
+  knightly.checkTwitch = async () => {
+    const game = await got('https://api.twitch.tv/helix/streams?game_id=497057', {
+      headers: {
+        'Client-ID': process.env.CLIENT_ID
+      }
+    })
+    try {
+      logger.info(await game.body)
+    } catch (e) {
+      logger.error(e)
+    }
+  }
+
   setInterval(() => knightly.changeStatus(), 120000)
+  // setInterval(() => knightly.checkTwitch(), 10000)
   logger.info(`Logged in as ${knightly.user.username}`)
 })
 
