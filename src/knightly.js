@@ -58,27 +58,33 @@ knightly.on('ready', () => {
     { type: 3, name: 'you type' },
     { type: 0, name: `with ${users} users` },
     { type: 2, name: `to ${users} users` },
-    { type: 3, name: `${users} users` }
+    { type: 3, name: `${users} users` },
+    { type: 1, name: 'on twitch. i think.', url: 'https://www.twitch.tv/zetari_' }
   ]
 
   knightly.changeStatus = () => {
     let type
     const cstat = statuses[~~(Math.random() * statuses.length)]
     if (cstat.type === 0) type = 'Playing'
+    if (cstat.type === 1) type = 'Twitch:'
     if (cstat.type === 2) type = 'Listening'
     if (cstat.type === 3) type = 'Watching'
-    knightly.editStatus({ name: cstat.name, type: cstat.type || 0 })
+    if (!cstat.url) knightly.editStatus({ name: cstat.name, type: cstat.type || 0 })
+    if (cstat.url != null) knightly.editStatus({ name: cstat.name, type: cstat.type || 0, url: cstat.url })
     logger.info(chalk.yellow.bold(`Status changed: '${type} ${cstat.name}'`))
   }
 
   knightly.checkTwitch = async () => {
-    const game = await got('https://api.twitch.tv/helix/streams?game_id=497057', {
+    let game
+    // TODO: Get the user's ID
+    // This function isn't functional atm
+    await got('https://api.twitch.tv/helix/users?user_id=', {
       headers: {
         'Client-ID': process.env.CLIENT_ID
       }
     })
     try {
-      logger.info(await game.body)
+      console.log(JSON.parse(game.body))
     } catch (e) {
       logger.error(e)
     }

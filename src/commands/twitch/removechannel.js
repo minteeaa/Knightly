@@ -23,13 +23,16 @@ class removechannel extends Command {
     })
     const dn = JSON.parse(channelCheck.body).data[0].display_name
     const sl = db.fetch(`${msg.channel.guild.id}.streamList`)
+    const cn = db.fetch(`${JSON.parse(channelCheck.body).data[0].id}.linkedServers`)
     const tid = JSON.parse(channelCheck.body).data[0].id
     if (dn == null) return responder.send('User not found.')
     else if (dn != null) {
       if (sl == null) return responder.send('The stream list is empty.')
       else if (sl.includes(tid)) {
         const nl = removeA(sl, tid)
+        const na = removeA(cn, msg.channel.guild.id)
         db.set(`${msg.channel.guild.id}.streamList`, nl)
+        db.set(`${JSON.parse(channelCheck.body).data[0].id}.linkedServers`, na)
         return responder.send(`Twitch user removed from list: \`${dn}\``)
       } else if (!sl.includes(tid)) {
         return responder.send('That user is not on the stream list.')
